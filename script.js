@@ -1,46 +1,37 @@
 "use strict";
-const mage = {
-    hp: 100,
-    mp: 50
-};
-const mageInfo = document.getElementById("mageInfo");
-const battleLog = document.getElementById("battleLog");
-function updateMage() {
-    mageInfo.textContent =
-        "HP: " + mage.hp + " | MP: " + mage.mp;
+const mage1 = { hp: 100, mp: 50 };
+const mage2 = { hp: 100, mp: 50 };
+const info1 = document.getElementById("mage1Info");
+const info2 = document.getElementById("mage2Info");
+const log = document.getElementById("battleLog");
+function render() {
+    info1.textContent = `Mage1 HP:${mage1.hp} MP:${mage1.mp}`;
+    info2.textContent = `Mage2 HP:${mage2.hp} MP:${mage2.mp}`;
 }
-updateMage();
-const attackBtn = document.getElementById("attackBtn");
-const healBtn = document.getElementById("healBtn");
-const superBtn = document.getElementById("superBtn");
-attackBtn.addEventListener("click", () => {
-    mage.mp += 5;
-    battleLog.innerHTML += "<p>Атака!</p>";
-    updateMage();
+render();
+// ===== Mage 1 actions =====
+document.getElementById("p1Attack").addEventListener("click", () => {
+    mage2.hp -= 10;
+    log.innerHTML += "<p>Mage1 атакує Mage2</p>";
+    render();
 });
-healBtn.addEventListener("click", () => {
-    if (mage.mp >= 5) {
-        mage.hp += 10;
-        mage.mp -= 5;
-        if (mage.hp > 100) {
-            mage.hp = 100;
-        }
-        battleLog.innerHTML += "<p>Лікування!</p>";
-    }
-    else {
-        battleLog.innerHTML += "<p>Мало мани!</p>";
-    }
-    updateMage();
+document.getElementById("p1Heal").addEventListener("click", () => {
+    mage1.hp += 10;
+    mage1.mp -= 5;
+    log.innerHTML += "<p>Mage1 лікується</p>";
+    render();
 });
-superBtn.addEventListener("click", () => {
-    if (mage.mp >= 20) {
-        mage.mp -= 20;
-        battleLog.innerHTML += "<p>Суперудар!</p>";
-    }
-    else {
-        battleLog.innerHTML += "<p>Недостатньо мани!</p>";
-    }
-    updateMage();
+// ===== Mage 2 actions =====
+document.getElementById("p2Attack").addEventListener("click", () => {
+    mage1.hp -= 10;
+    log.innerHTML += "<p>Mage2 атакує Mage1</p>";
+    render();
+});
+document.getElementById("p2Heal").addEventListener("click", () => {
+    mage2.hp += 10;
+    mage2.mp -= 5;
+    log.innerHTML += "<p>Mage2 лікується</p>";
+    render();
 });
 // ===== CLICK BATTLE =====
 const leftSide = document.getElementById("leftSide");
