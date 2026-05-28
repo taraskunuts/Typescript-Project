@@ -1,7 +1,3 @@
-export {};
-
-// ===== DUEL =====
-
 type Mage = {
   hp: number;
   mp: number;
@@ -12,27 +8,33 @@ const mage: Mage = {
   mp: 50
 };
 
-const mageInfo = document.getElementById("mageInfo") as HTMLElement;
-const log = document.getElementById("battleLog") as HTMLElement;
+const mageInfo = document.getElementById("mageInfo")!;
+const battleLog = document.getElementById("battleLog")!;
 
 function updateMage() {
-  mageInfo.innerText = `HP: ${mage.hp} | MP: ${mage.mp}`;
+  mageInfo.textContent =
+    "HP: " + mage.hp + " | MP: " + mage.mp;
 }
 
 updateMage();
 
-document.getElementById("attackBtn")?.addEventListener("click", () => {
+const attackBtn = document.getElementById("attackBtn")!;
+const healBtn = document.getElementById("healBtn")!;
+const superBtn = document.getElementById("superBtn")!;
+
+attackBtn.addEventListener("click", () => {
 
   mage.mp += 5;
 
-  log.innerHTML += "<p>Атака!</p>";
+  battleLog.innerHTML += "<p>Атака!</p>";
 
   updateMage();
 });
 
-document.getElementById("healBtn")?.addEventListener("click", () => {
+healBtn.addEventListener("click", () => {
 
   if (mage.mp >= 5) {
+
     mage.hp += 10;
     mage.mp -= 5;
 
@@ -40,22 +42,27 @@ document.getElementById("healBtn")?.addEventListener("click", () => {
       mage.hp = 100;
     }
 
-    log.innerHTML += "<p>Лікування!</p>";
+    battleLog.innerHTML += "<p>Лікування!</p>";
+
   } else {
-    log.innerHTML += "<p>Мало мани!</p>";
+
+    battleLog.innerHTML += "<p>Мало мани!</p>";
   }
 
   updateMage();
 });
 
-document.getElementById("superBtn")?.addEventListener("click", () => {
+superBtn.addEventListener("click", () => {
 
   if (mage.mp >= 20) {
+
     mage.mp -= 20;
 
-    log.innerHTML += "<p>СУПЕРУДАР!</p>";
+    battleLog.innerHTML += "<p>Суперудар!</p>";
+
   } else {
-    log.innerHTML += "<p>Недостатньо мани!</p>";
+
+    battleLog.innerHTML += "<p>Недостатньо мани!</p>";
   }
 
   updateMage();
@@ -63,49 +70,61 @@ document.getElementById("superBtn")?.addEventListener("click", () => {
 
 // ===== CLICK BATTLE =====
 
-const left = document.getElementById("leftSide") as HTMLElement;
-const right = document.getElementById("rightSide") as HTMLElement;
-const battleText = document.getElementById("battleText") as HTMLElement;
+const leftSide = document.getElementById("leftSide")!;
+const rightSide = document.getElementById("rightSide")!;
+const battleText = document.getElementById("battleText")!;
 
 let blue = 50;
 let red = 50;
 
 let gameOver = false;
 
-document.addEventListener("keydown", (e: KeyboardEvent) => {
+document.addEventListener("keydown", (event) => {
 
   if (gameOver) {
     return;
   }
 
-  if (e.key === "a") {
+  if (event.key === "a") {
+
     blue += 5;
     red -= 5;
   }
 
-  if (e.key === "l") {
+  if (event.key === "l") {
+
     red += 5;
     blue -= 5;
   }
 
-  // ОБМЕЖЕННЯ
+  if (blue < 0) {
+    blue = 0;
+  }
 
-  if (blue < 0) blue = 0;
-  if (red < 0) red = 0;
+  if (red < 0) {
+    red = 0;
+  }
 
-  if (blue > 100) blue = 100;
-  if (red > 100) red = 100;
+  if (blue > 100) {
+    blue = 100;
+  }
 
-  left.style.width = blue + "%";
-  right.style.width = red + "%";
+  if (red > 100) {
+    red = 100;
+  }
+
+  (leftSide as HTMLElement).style.width = blue + "%";
+  (rightSide as HTMLElement).style.width = red + "%";
 
   if (blue === 100) {
-    battleText.innerText = "Синій переміг!";
+
+    battleText.textContent = "Синій переміг!";
     gameOver = true;
   }
 
   if (red === 100) {
-    battleText.innerText = "Червоний переміг!";
+
+    battleText.textContent = "Червоний переміг!";
     gameOver = true;
   }
 });
@@ -117,26 +136,29 @@ type Question = {
   answer: string;
 };
 
-const q: Question = {
+const questionData: Question = {
   text: "Що компілюється в JavaScript?",
   answer: "TypeScript"
 };
 
-const question = document.getElementById("question") as HTMLElement;
-const result = document.getElementById("quizResult") as HTMLElement;
+const question = document.getElementById("question")!;
+const quizResult = document.getElementById("quizResult")!;
 
-question.innerText = q.text;
+question.textContent = questionData.text;
 
 const buttons = document.querySelectorAll(".answerBtn");
 
-buttons.forEach((btn) => {
+buttons.forEach((button) => {
 
-  btn.addEventListener("click", () => {
+  button.addEventListener("click", () => {
 
-    if (btn.textContent === q.answer) {
-      result.innerText = "Правильно!";
+    if (button.textContent === questionData.answer) {
+
+      quizResult.textContent = "Правильно!";
+
     } else {
-      result.innerText = "Неправильно!";
+
+      quizResult.textContent = "Неправильно!";
     }
 
   });
